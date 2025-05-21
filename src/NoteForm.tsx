@@ -10,9 +10,9 @@ type NoteFormProps = {
     onSubmit: (data: NoteData) => void
     onAddTag: (tag: Tag) => void
     availableTags: Tag[]
-}
+} & Partial<NoteData>
 
-export function NoteForm( {onSubmit, onAddTag, availableTags} : NoteFormProps) {
+export function NoteForm( {onSubmit, onAddTag, availableTags, title = "", markdown = "", tags = []} : NoteFormProps) {
     const titleRef = useRef<HTMLInputElement>(null);
     const markdownRef = useRef<HTMLTextAreaElement>(null);
     const [selectedTags, setSelectedTags] = useState<Tag[]>([])
@@ -38,7 +38,12 @@ export function NoteForm( {onSubmit, onAddTag, availableTags} : NoteFormProps) {
                     <Col>
                         <Form.Group controlId = "title">
                             <Form.Label>Title</Form.Label>
-                            <Form.Control ref = {titleRef} required placeholder = "Title" />
+                            <Form.Control 
+                                ref = {titleRef} 
+                                required 
+                                defaultValue={title}
+                                placeholder = "Title" 
+                            />
                         </Form.Group>
                     </Col>
                     <Col>
@@ -68,7 +73,13 @@ export function NoteForm( {onSubmit, onAddTag, availableTags} : NoteFormProps) {
                 </Row>
                 <Form.Group controlId = "markdown">
                     <Form.Label>Body</Form.Label>
-                    <Form.Control ref={markdownRef} required as = "textarea" rows = {15} placeholder = "Write your note here..." />
+                    <Form.Control 
+                        ref={markdownRef} 
+                        required 
+                        defaultValue={markdown}
+                        as = "textarea" 
+                        rows = {15} 
+                        placeholder = "Write your note here..." />
                 </Form.Group>
 
                 <Stack direction = "horizontal" gap = {2} className = "justify-content-end">
